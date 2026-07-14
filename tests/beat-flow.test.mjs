@@ -95,3 +95,15 @@ test("a repeated key does not produce a presentation command", () => {
   });
   assert.equal(command, null);
 });
+
+test("F key maps to the fullscreen command", () => {
+  const command = commandForKeyboardEvent({
+    key: "F",
+    repeat: false,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    target: null,
+  });
+  assert.equal(command, "fullscreen");
+});

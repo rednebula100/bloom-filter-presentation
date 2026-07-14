@@ -10,7 +10,7 @@ export default function Slide06FalsePositive({ beat }: SlideProps) {
   return (
     <SlideFrame
       className={`false-positive-slide ${checked ? "is-checked" : ""} ${revealed ? "is-revealed" : ""}`}
-      title="존재하지 않는데 존재한다고 판단한다"
+      title="존재하지 않는데 존재할 수도 있다고 판단한다"
     >
       <div className="false-positive-context">
         <section className="actual-list" aria-label="실제로 삽입된 데이터">

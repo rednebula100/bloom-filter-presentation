@@ -10,6 +10,10 @@ import Slide03Structure from "@/src/slides/Slide03Structure";
 import Slide04Collisions from "@/src/slides/Slide04Collisions";
 import Slide05Lookup from "@/src/slides/Slide05Lookup";
 import Slide06FalsePositive from "@/src/slides/Slide06FalsePositive";
+import Slide07ProbabilityMath from "@/src/slides/Slide07ProbabilityMath";
+import Slide08OptimalHashes from "@/src/slides/Slide08OptimalHashes";
+import Slide09Experiment from "@/src/slides/Slide09Experiment";
+import Slide10Conclusion from "@/src/slides/Slide10Conclusion";
 import { commandForKeyboardEvent } from "./keyboard";
 import {
   createPresentationReducer,
@@ -89,7 +93,7 @@ const slides: SlideDefinition[] = [
   },
   {
     id: "false-positive",
-    title: "존재하지 않는데 존재한다고 판단한다",
+    title: "존재하지 않는데 존재할 수도 있다고 판단한다",
     section: "거짓 양성",
     beats: [
       { id: "missing-input", label: "목록에 없는 melon" },
@@ -105,6 +109,55 @@ const slides: SlideDefinition[] = [
       },
     ],
     component: Slide06FalsePositive,
+  },
+  {
+    id: "probability-math",
+    title: "거짓 양성 확률을 결정하는 수학",
+    section: "거짓 양성 확률의 변수",
+    beats: [
+      { id: "probability-formula", label: "거짓 양성 확률 공식" },
+      {
+        id: "variable-relations",
+        label: "변수와 확률의 관계",
+        autoSequence: "reveal-variable-relations",
+      },
+    ],
+    component: Slide07ProbabilityMath,
+  },
+  {
+    id: "optimal-hashes",
+    title: "해시 함수는 많을수록 좋지 않다",
+    section: "최적 해시 함수 개수",
+    beats: [
+      { id: "empty-axes", label: "실험 조건과 빈 그래프" },
+      {
+        id: "optimal-curve",
+        label: "이론 곡선과 최저점",
+        autoSequence: "draw-theory-curve-and-optimum",
+      },
+    ],
+    component: Slide08OptimalHashes,
+  },
+  {
+    id: "theory-experiment",
+    title: "이론은 실제 실험에서도 맞을까?",
+    section: "이론과 시뮬레이션",
+    beats: [
+      { id: "theory-baseline", label: "이론 곡선과 실험 조건" },
+      {
+        id: "simulation-comparison",
+        label: "고정 실험값 비교",
+        autoSequence: "plot-fixed-experiment-results",
+      },
+    ],
+    component: Slide09Experiment,
+  },
+  {
+    id: "conclusion",
+    title: "완벽함을 포기하는 것이 더 강한 시스템을 만든다",
+    section: "결론",
+    beats: [{ id: "conclusion", label: "탐구 결론" }],
+    component: Slide10Conclusion,
   },
 ];
 

@@ -73,7 +73,7 @@ export default function Slide02Memory({ beat }: SlideProps) {
       </div>
 
       <p className="memory-insight" aria-hidden={!compactActive}>
-        원본 전체를 저장하지 않고도 <strong>존재 여부</strong>를 빠르게 확인한다.
+        원본 전체를 저장하지 않고도 <strong>존재 가능성을 빠르게 1차 검사</strong>한다.
       </p>
     </SlideFrame>
   );

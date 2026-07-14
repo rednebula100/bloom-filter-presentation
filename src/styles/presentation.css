@@ -1009,3 +1009,274 @@
 }
 
 .false-positive-reveal > p strong { color: var(--warning-soft); }
+
+/* Probability graphs */
+.probability-graph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.graph-grid {
+  stroke: rgba(120, 160, 200, 0.14);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.graph-axis {
+  stroke: rgba(155, 170, 192, 0.66);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.graph-tick {
+  fill: var(--text-secondary);
+  font: 500 23px var(--font-mono);
+}
+
+.graph-axis-label {
+  fill: var(--text-primary);
+  font: 600 25px var(--font-sans);
+}
+
+.theory-line {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 7px rgba(56, 232, 255, 0.26));
+  animation: graph-draw 860ms var(--ease-out) both;
+}
+
+.theory-point {
+  fill: #07131f;
+  stroke: var(--cyan-soft);
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.theory-point.is-optimal {
+  fill: var(--lime);
+  stroke: var(--lime);
+  filter: drop-shadow(0 0 8px rgba(183, 255, 74, 0.46));
+}
+
+.optimal-band {
+  fill: rgba(183, 255, 74, 0.06);
+  stroke: rgba(183, 255, 74, 0.26);
+  stroke-width: 1;
+  stroke-dasharray: 7 7;
+  vector-effect: non-scaling-stroke;
+  animation: graph-band-enter 420ms ease 620ms both;
+}
+
+.optimal-label {
+  color: var(--lime);
+  animation: graph-label-enter 340ms var(--ease-out) 780ms both;
+}
+
+.optimal-label line {
+  stroke: currentColor;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.optimal-label text {
+  fill: currentColor;
+  font: 700 23px var(--font-sans);
+}
+
+.experiment-point {
+  fill: var(--lime);
+  stroke: #07131f;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: experiment-point-enter 330ms var(--ease-out) var(--point-delay) both;
+}
+
+.experiment-halo {
+  fill: transparent;
+  stroke: var(--lime);
+  stroke-width: 2;
+  opacity: 0.38;
+}
+
+/* Slide 7 */
+.formula-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 42px;
+  color: var(--text-primary);
+  font: 650 76px/1.1 var(--font-mono);
+  letter-spacing: -0.055em;
+}
+
+.formula-hero b { color: var(--cyan); font-weight: 500; }
+.formula-hero sup { color: var(--cyan-soft); font-size: 0.56em; vertical-align: 0.68em; }
+
+.variable-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 30px 0 0;
+  border-top: 1px solid rgba(120, 160, 200, 0.26);
+  border-bottom: 1px solid rgba(120, 160, 200, 0.26);
+}
+
+.variable-strip > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 74px;
+  border-left: 1px solid rgba(120, 160, 200, 0.2);
+}
+
+.variable-strip > div:first-child { border-left: 0; }
+.variable-strip dt { color: var(--cyan-soft); font: 700 34px/1 var(--font-mono); }
+.variable-strip dd { margin: 0; color: var(--text-secondary); font-size: 25px; }
+
+.relation-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 54px;
+  margin-top: 34px;
+}
+
+.relation-strip section {
+  padding-top: 18px;
+  border-top: 2px solid rgba(56, 232, 255, 0.34);
+  opacity: 0;
+}
+
+.probability-math-slide.is-explained .relation-strip section {
+  animation: relation-enter 380ms var(--ease-out) var(--relation-delay) both;
+}
+
+.relation-equation {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 14px;
+  font-size: 27px;
+}
+
+.relation-equation strong { color: var(--cyan-soft); font: 700 38px/1 var(--font-mono); }
+.relation-equation span { color: var(--text-secondary); }
+.relation-equation b { color: var(--text-muted); font-weight: 400; }
+.relation-equation em { color: var(--text-primary); font-size: 31px; font-style: normal; font-weight: 700; }
+.relation-strip svg { display: block; width: 100%; height: 74px; margin-top: 4px; }
+.relation-line { fill: none; stroke: var(--cyan); stroke-width: 4; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.probability-math-slide.is-explained .relation-line { animation: graph-draw 560ms var(--ease-out) calc(var(--relation-delay) + 150ms) both; }
+.relation-line--valley { stroke: var(--lime); }
+.relation-strip p { margin: 2px 0 0; color: var(--text-secondary); font-size: 24px; text-align: center; }
+
+.probability-conclusion,
+.optimal-conclusion,
+.validation-conclusion {
+  position: absolute;
+  left: 150px;
+  right: 150px;
+  bottom: 100px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 31px;
+  text-align: center;
+  opacity: 0;
+}
+
+.probability-math-slide.is-explained .probability-conclusion,
+.optimal-hash-slide.is-revealed .optimal-conclusion,
+.experiment-slide.is-compared .validation-conclusion {
+  animation: conclusion-enter 360ms var(--ease-out) 980ms both;
+}
+
+.probability-conclusion strong,
+.optimal-conclusion strong,
+.validation-conclusion strong { color: var(--cyan-soft); font-size: 37px; }
+.validation-conclusion strong { color: var(--lime); }
+
+/* Slide 8 */
+.experiment-conditions {
+  display: flex;
+  gap: 42px;
+  margin-top: 26px;
+  color: var(--text-secondary);
+  font: 500 27px/1 var(--font-mono);
+}
+
+.experiment-conditions span { padding-right: 42px; border-right: 1px solid rgba(120, 160, 200, 0.24); }
+.experiment-conditions span:last-child { border-right: 0; }
+.experiment-conditions b { color: var(--cyan-soft); font-weight: 700; }
+
+.optimal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(430px, 0.7fr);
+  align-items: center;
+  gap: 62px;
+  height: 550px;
+  margin-top: 20px;
+}
+
+.optimal-graph { width: 100%; height: 520px; }
+
+.optimal-formula {
+  padding: 30px 0 30px 36px;
+  border-left: 2px solid rgba(56, 232, 255, 0.42);
+  opacity: 0;
+  transform: translateX(18px);
+}
+
+.optimal-hash-slide.is-revealed .optimal-formula { animation: formula-enter 380ms var(--ease-out) 600ms both; }
+.optimal-formula > span { display: block; color: var(--text-secondary); font-size: 25px; }
+.optimal-formula > strong { display: block; margin-top: 20px; color: var(--text-primary); font: 650 40px/1.25 var(--font-mono); }
+.optimal-formula sub { color: var(--cyan-soft); font-size: 0.58em; }
+.optimal-formula i { color: var(--cyan-soft); font-style: normal; }
+.optimal-formula p { margin: 32px 0 0; color: var(--text-secondary); font: 500 27px/1.4 var(--font-mono); }
+.optimal-formula > b { display: block; margin-top: 12px; color: var(--lime); font: 740 60px/1 var(--font-mono); }
+.optimal-formula small { display: block; margin-top: 18px; color: var(--text-primary); font-size: 25px; }
+
+/* Slide 9 */
+.validation-layout {
+  display: grid;
+  grid-template-columns: 430px minmax(0, 1fr);
+  align-items: center;
+  gap: 58px;
+  height: 650px;
+  margin-top: 22px;
+}
+
+.experiment-method {
+  padding: 24px 34px 24px 0;
+  border-right: 1px solid rgba(120, 160, 200, 0.28);
+}
+
+.experiment-method > span { color: var(--cyan); font-size: 25px; font-weight: 700; }
+.experiment-method dl { display: grid; gap: 0; margin: 18px 0 0; }
+.experiment-method dl > div { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 15px 0; border-bottom: 1px solid rgba(120, 160, 200, 0.15); }
+.experiment-method dt { color: var(--text-secondary); font-size: 24px; }
+.experiment-method dd { margin: 0; color: var(--text-primary); font: 600 24px/1 var(--font-mono); }
+
+.graph-legend { display: flex; gap: 24px; margin-top: 30px; color: var(--text-secondary); font-size: 23px; }
+.graph-legend span { display: flex; align-items: center; gap: 10px; }
+.graph-legend i { width: 30px; height: 4px; background: var(--cyan); }
+.graph-legend .legend-experiment { opacity: 0.4; transition: opacity 280ms ease 220ms; }
+.graph-legend .legend-experiment i { width: 12px; height: 12px; border-radius: 50%; background: var(--lime); }
+.experiment-slide.is-compared .graph-legend .legend-experiment { opacity: 1; }
+.validation-graph { width: 100%; height: 570px; }
+
+/* Slide 10 */
+.conclusion-slide .slide-title { max-width: 1500px; font-size: 64px; }
+.conclusion-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 54px; margin: 66px 0 0; padding: 0; list-style: none; }
+.conclusion-list li { min-height: 190px; padding-top: 24px; border-top: 3px solid rgba(56, 232, 255, 0.46); }
+.conclusion-list li > span { color: var(--cyan); font: 650 25px/1 var(--font-mono); }
+.conclusion-list p { margin: 22px 0 0; color: var(--text-secondary); font-size: 28px; line-height: 1.48; }
+.conclusion-list strong { color: var(--text-primary); font-size: 31px; }
+.final-definition { margin: 64px 0 0; color: var(--text-secondary); font-size: 37px; line-height: 1.48; text-align: center; }
+.final-definition strong { color: var(--cyan-soft); font-size: 43px; }
+.final-emphasis { margin: 42px 0 0; color: var(--lime); font-size: 31px; font-weight: 700; text-align: center; letter-spacing: -0.02em; }

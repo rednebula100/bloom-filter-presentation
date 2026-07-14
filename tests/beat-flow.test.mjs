@@ -14,6 +14,10 @@ const slides = [
   { id: "s4", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }] },
   { id: "s5", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }] },
   { id: "s6", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }, { id: "b2", label: "" }] },
+  { id: "s7", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }] },
+  { id: "s8", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }] },
+  { id: "s9", title: "", section: "", beats: [{ id: "b0", label: "" }, { id: "b1", label: "" }] },
+  { id: "s10", title: "", section: "", beats: [{ id: "b0", label: "" }] },
 ];
 
 test("manual beats follow the scripted forward and backward flow", () => {
@@ -48,6 +52,36 @@ test("slides 4 through 6 use the exact scripted beat flow in both directions", (
     state = reduce(state, { type: "PREVIOUS" });
     assert.deepEqual([state.slideIndex, state.beat], expected);
   }
+});
+
+test("slides 7 through 10 use the exact scripted beat flow in both directions", () => {
+  const reduce = createPresentationReducer(slides);
+  let state = { ...initialPresentationState, slideIndex: 5, beat: 2 };
+  const expectedForward = [[6, 0], [6, 1], [7, 0], [7, 1], [8, 0], [8, 1], [9, 0]];
+  const expectedBackward = [[8, 1], [8, 0], [7, 1], [7, 0], [6, 1], [6, 0], [5, 2]];
+
+  for (const expected of expectedForward) {
+    state = reduce(state, { type: "NEXT" });
+    assert.deepEqual([state.slideIndex, state.beat], expected);
+  }
+  for (const expected of expectedBackward) {
+    state = reduce(state, { type: "PREVIOUS" });
+    assert.deepEqual([state.slideIndex, state.beat], expected);
+  }
+});
+
+test("the full deck keeps the nine-click budget and traverses every beat", () => {
+  assert.equal(slides.reduce((total, slide) => total + slide.beats.length - 1, 0), 9);
+
+  const reduce = createPresentationReducer(slides);
+  const sceneCount = slides.reduce((total, slide) => total + slide.beats.length, 0);
+  let state = initialPresentationState;
+
+  for (let index = 1; index < sceneCount; index += 1) state = reduce(state, { type: "NEXT" });
+  assert.deepEqual([state.slideIndex, state.beat], [9, 0]);
+
+  for (let index = 1; index < sceneCount; index += 1) state = reduce(state, { type: "PREVIOUS" });
+  assert.deepEqual([state.slideIndex, state.beat], [0, 0]);
 });
 
 test("a repeated key does not produce a presentation command", () => {

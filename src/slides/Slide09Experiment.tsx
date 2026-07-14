@@ -1,9 +1,7 @@
 import ProbabilityGraph from "@/src/components/ProbabilityGraph";
 import SlideFrame from "@/src/components/SlideFrame";
 import type { SlideProps } from "@/src/app/presentationStore";
-import { experimentConfig, getFixedSimulationResults, theoryProbabilities } from "@/src/data/probabilityExperiment";
-
-const experimentResults = getFixedSimulationResults();
+import { experimentConfig, simulationAverages, theoryProbabilities } from "@/src/data/probabilityExperiment";
 
 export default function Slide09Experiment({ beat }: SlideProps) {
   const compared = beat === 1;
@@ -18,16 +16,16 @@ export default function Slide09Experiment({ beat }: SlideProps) {
             <div><dt>삽입 데이터</dt><dd>n = {experimentConfig.n}</dd></div>
             <div><dt>해시 함수</dt><dd>k = 1 ~ 10</dd></div>
             <div><dt>미삽입 조회</dt><dd>조건마다 10,000개</dd></div>
-            <div><dt>재현 조건</dt><dd>고정 seed 사용</dd></div>
+            <div><dt>재현 조건</dt><dd>고정 seed 5개 · 평균</dd></div>
           </dl>
           <div className="graph-legend">
             <span><i className="legend-theory" />이론 곡선</span>
-            <span className="legend-experiment"><i />고정 실험값</span>
+            <span className="legend-experiment"><i />시뮬레이션 평균</span>
           </div>
         </section>
 
         <div className="validation-graph">
-          <ProbabilityGraph theory={theoryProbabilities} experiment={experimentResults} showExperiment={compared} highlightOptimal={compared} ariaLabel="이론 확률과 고정 시뮬레이션 결과 비교" />
+          <ProbabilityGraph theory={theoryProbabilities} experiment={simulationAverages} showExperiment={compared} highlightOptimal={compared} ariaLabel="이론 확률과 5회 시뮬레이션 평균 비교" />
         </div>
       </div>
 

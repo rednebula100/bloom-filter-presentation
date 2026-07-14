@@ -146,8 +146,8 @@ const slides: SlideDefinition[] = [
       { id: "theory-baseline", label: "이론 곡선과 실험 조건" },
       {
         id: "simulation-comparison",
-        label: "고정 실험값 비교",
-        autoSequence: "plot-fixed-experiment-results",
+        label: "시뮬레이션 평균 비교",
+        autoSequence: "plot-simulation-averages",
       },
     ],
     component: Slide09Experiment,

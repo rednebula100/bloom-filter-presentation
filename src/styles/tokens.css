@@ -1,0 +1,20 @@
+:root {
+  --bg-primary: #05080f;
+  --bg-secondary: #0a101c;
+  --surface: #101827;
+  --surface-light: #172235;
+  --text-primary: #f4f8ff;
+  --text-secondary: #9baac0;
+  --text-muted: #607089;
+  --cyan: #38e8ff;
+  --cyan-soft: #8af3ff;
+  --lime: #b7ff4a;
+  --purple: #9d6cff;
+  --warning: #ff4f76;
+  --warning-soft: #ff8ca4;
+  --line: rgba(120, 160, 200, 0.22);
+  --glow-cyan: rgba(56, 232, 255, 0.35);
+  --font-sans: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

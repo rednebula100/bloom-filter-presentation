@@ -23,5 +23,7 @@ test("server-renders the presentation shell and metadata", async () => {
   assert.match(html, /<title>컴퓨터는 왜 일부러 틀린 답을 내는가\?<\/title>/i);
   assert.match(html, /블룸 필터의 거짓 양성 확률과 메모리 최적화/);
   assert.match(html, /data-presentation-root/);
+  assert.match(html, /data-beat="0"/);
+  assert.doesNotMatch(html, /keyboard-hint|CORE MECHANISM|DATA FLOW/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });

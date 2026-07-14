@@ -1,7 +1,5 @@
-import type { CSSProperties } from "react";
 import BitArray from "@/src/components/BitArray";
 import SlideFrame from "@/src/components/SlideFrame";
-import StatusPanel from "@/src/components/StatusPanel";
 import type { SlideProps } from "@/src/app/presentationStore";
 
 const dataRows = [
@@ -13,60 +11,69 @@ const dataRows = [
   "asset_hash_bf72a09c",
 ];
 
-const compactBits = Array.from({ length: 16 }, (_, index) => [1, 4, 8, 11, 14].includes(index));
+const activePositions = [1, 4, 8, 11, 14];
+const compactBits = Array.from({ length: 16 }, (_, index) => activePositions.includes(index));
 
-export default function Slide02Memory({ step }: SlideProps) {
-  const bloomVisible = step >= 2;
+export default function Slide02Memory({ beat }: SlideProps) {
+  const compactActive = beat === 1;
 
   return (
-    <SlideFrame className="memory-slide" eyebrow="WHY / MEMORY COST" title="완벽한 기억은 무겁다">
-      <div className="memory-comparison">
-        <section className={`raw-memory ${step >= 1 ? "is-expanded" : ""}`} aria-label="원본 데이터 전체 저장">
-          <div className="comparison-label">
-            <span>FULL DATA STORAGE</span>
-            <small>원본을 그대로 기억</small>
-          </div>
-          <div className="data-stream" aria-label="저장되는 데이터 예시">
-            {dataRows.map((row, index) => (
-              <code key={row} style={{ "--row-index": index } as CSSProperties}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {row}
-              </code>
+    <SlideFrame
+      className={`memory-slide ${compactActive ? "is-compressed" : ""}`}
+      title="완벽한 기억은 무겁다"
+    >
+      <p className="slide-lead">원본을 모두 보관하는 가장 확실한 방법은, 데이터가 늘수록 더 무거워진다.</p>
+
+      <div className="memory-scene">
+        <section className="raw-memory" aria-label="원본 데이터 전체 저장">
+          <header className="scene-label">
+            <strong>원본 데이터 전체 저장</strong>
+            <span>모든 문자열을 그대로 기억</span>
+          </header>
+
+          <div className="data-stream" aria-label="계속 누적되는 원본 데이터">
+            {dataRows.map((row) => (
+              <code key={row}>{row}</code>
             ))}
-            <code className="data-stream__more"><span>··</span>계속 쌓이는 원본 데이터</code>
+            <code className="data-stream__more">··· 계속 쌓이는 원본 데이터</code>
           </div>
-          <div className={`memory-growth reveal ${step >= 1 ? "visible" : ""}`} aria-hidden={step < 1}>
-            <StatusPanel label="MEMORY LOAD" value="2.4 MB → 18.7 MB → 92.1 MB" note="ILLUSTRATIVE · 개념적 수치" tone="purple" />
-            <div className="memory-meter" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+
+          <div className="memory-load">
+            <span>저장 부담</span>
+            <strong>2.4 MB → 18.7 MB → 92.1 MB</strong>
+            <small>illustrative · 이해를 위한 개념적 수치</small>
           </div>
         </section>
 
         <div className="comparison-divider" aria-hidden="true">
-          <span>VS</span>
+          <span>→</span>
         </div>
 
-        <section className={`compact-memory ${bloomVisible ? "is-active" : ""}`} aria-label="비트 배열 기반 기억">
-          <div className="comparison-label">
-            <span>BLOOM FILTER</span>
-            <small>위치만 압축해 기억</small>
-          </div>
+        <section className="compact-memory" aria-label="압축된 비트 배열 기억">
+          <header className="scene-label">
+            <strong>압축된 비트 기억</strong>
+            <span>원본 대신 위치의 흔적만 기억</span>
+          </header>
+
           <div className="compact-memory__array">
             <BitArray
-              bits={bloomVisible ? compactBits : Array(16).fill(false)}
-              highlighted={bloomVisible ? [1, 4, 8, 11, 14] : []}
-              showIndices
+              bits={compactActive ? compactBits : Array(16).fill(false)}
+              highlighted={compactActive ? activePositions : []}
+              showIndices={false}
+              activationDelay={160}
+              activationStagger={90}
             />
           </div>
-          <div className={`compact-caption reveal ${bloomVisible ? "visible" : ""}`} aria-hidden={!bloomVisible}>
-            <StatusPanel label="COMPACT BIT MEMORY" value="16 bits" note="원본 대신 흔적만 저장" tone="lime" />
+
+          <div className="compact-caption">
+            <strong>16개의 비트</strong>
+            <span>원본 전체가 아닌, 존재를 나타내는 작은 흔적</span>
           </div>
         </section>
       </div>
 
-      <p className={`memory-question reveal ${step >= 3 ? "visible" : ""}`} aria-hidden={step < 3}>
-        원본 데이터를 모두 기억하지 않고도
-        <br />
-        <strong>존재 여부</strong>를 판단할 수 있을까?
+      <p className="memory-insight" aria-hidden={!compactActive}>
+        원본 전체를 저장하지 않고도 <strong>존재 여부</strong>를 빠르게 확인한다.
       </p>
     </SlideFrame>
   );

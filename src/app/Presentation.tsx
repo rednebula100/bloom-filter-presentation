@@ -24,22 +24,36 @@ const slides: SlideDefinition[] = [
   {
     id: "question",
     title: "컴퓨터는 왜 일부러 틀린 답을 내는가?",
-    section: "PROLOGUE",
-    maxStep: 2,
+    section: "도입",
+    beats: [{ id: "cover", label: "표지" }],
     component: Slide01Title,
   },
   {
     id: "memory-weight",
     title: "완벽한 기억은 무겁다",
-    section: "WHY BLOOM FILTER",
-    maxStep: 3,
+    section: "블룸 필터가 필요한 이유",
+    beats: [
+      { id: "full-storage", label: "원본 저장의 부담" },
+      {
+        id: "compact-memory",
+        label: "압축된 비트 기억",
+        autoSequence: "activate-compact-memory",
+      },
+    ],
     component: Slide02Memory,
   },
   {
     id: "structure",
-    title: "블룸 필터의 구조",
-    section: "CORE MECHANISM",
-    maxStep: 4,
+    title: "데이터를 저장하지 않고 위치를 저장한다",
+    section: "블룸 필터의 작동 원리",
+    beats: [
+      { id: "hash-input", label: "입력과 해시 함수" },
+      {
+        id: "set-bits",
+        label: "위치만 기억",
+        autoSequence: "draw-paths-and-set-bits",
+      },
+    ],
     component: Slide03Structure,
   },
 ];
@@ -123,16 +137,19 @@ export default function Presentation() {
   }, [move, toggleFullscreen, wakeChrome]);
 
   const slide = slides[state.slideIndex];
+  const beat = slide.beats[state.beat];
   const SlideComponent = slide.component;
   const totalProgress =
-    (state.slideIndex + (state.step + 1) / (slide.maxStep + 1)) / slides.length;
+    (state.slideIndex + (state.beat + 1) / slide.beats.length) / slides.length;
 
   return (
     <main
       className="presentation-viewport"
       data-presentation-root
       data-slide-index={state.slideIndex}
-      data-step={state.step}
+      data-step={state.beat}
+      data-beat={state.beat}
+      data-beat-id={beat.id}
       data-scale={scale.toFixed(4)}
       onPointerMove={wakeChrome}
       onPointerDown={wakeChrome}
@@ -146,7 +163,7 @@ export default function Presentation() {
           key={slide.id}
           className={`slide-transition slide-transition--${state.direction}`}
         >
-          <SlideComponent step={state.step} direction={state.direction} />
+          <SlideComponent beat={state.beat} direction={state.direction} />
         </div>
 
         <Navigation
@@ -171,11 +188,8 @@ export default function Presentation() {
           progress={totalProgress}
         />
 
-        <p className="keyboard-hint" aria-hidden="true">
-          ← → STEP&nbsp;&nbsp;·&nbsp;&nbsp;F FULLSCREEN&nbsp;&nbsp;·&nbsp;&nbsp;R RESET
-        </p>
         <p className="sr-only" aria-live="polite">
-          {`${state.slideIndex + 1}번 슬라이드, ${state.step}단계: ${slide.title}`}
+          {`${state.slideIndex + 1}번 슬라이드, ${beat.label}: ${slide.title}`}
         </p>
       </div>
     </main>

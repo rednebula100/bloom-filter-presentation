@@ -3,21 +3,27 @@ import type { ComponentType } from "react";
 export type Direction = "forward" | "backward";
 
 export type SlideProps = {
-  step: number;
+  beat: number;
   direction: Direction;
+};
+
+export type SlideBeat = {
+  id: string;
+  label: string;
+  autoSequence?: string;
 };
 
 export type SlideDefinition = {
   id: string;
   title: string;
   section: string;
-  maxStep: number;
+  beats: readonly SlideBeat[];
   component: ComponentType<SlideProps>;
 };
 
 export type PresentationState = {
   slideIndex: number;
-  step: number;
+  beat: number;
   direction: Direction;
   resetCount: number;
 };
@@ -31,10 +37,14 @@ export type PresentationAction =
 
 export const initialPresentationState: PresentationState = {
   slideIndex: 0,
-  step: 0,
+  beat: 0,
   direction: "forward",
   resetCount: 0,
 };
+
+export function lastBeatIndex(slide: SlideDefinition) {
+  return slide.beats.length - 1;
+}
 
 export function createPresentationReducer(slides: SlideDefinition[]) {
   return function presentationReducer(
@@ -45,49 +55,49 @@ export function createPresentationReducer(slides: SlideDefinition[]) {
 
     switch (action.type) {
       case "NEXT":
-        if (state.step < current.maxStep) {
-          return { ...state, step: state.step + 1, direction: "forward" };
+        if (state.beat < lastBeatIndex(current)) {
+          return { ...state, beat: state.beat + 1, direction: "forward" };
         }
         if (state.slideIndex < slides.length - 1) {
           return {
             ...state,
             slideIndex: state.slideIndex + 1,
-            step: 0,
+            beat: 0,
             direction: "forward",
           };
         }
         return state;
 
       case "PREVIOUS":
-        if (state.step > 0) {
-          return { ...state, step: state.step - 1, direction: "backward" };
+        if (state.beat > 0) {
+          return { ...state, beat: state.beat - 1, direction: "backward" };
         }
         if (state.slideIndex > 0) {
           const previousIndex = state.slideIndex - 1;
           return {
             ...state,
             slideIndex: previousIndex,
-            step: slides[previousIndex].maxStep,
+            beat: lastBeatIndex(slides[previousIndex]),
             direction: "backward",
           };
         }
         return state;
 
       case "HOME":
-        return { ...state, slideIndex: 0, step: 0, direction: "backward" };
+        return { ...state, slideIndex: 0, beat: 0, direction: "backward" };
 
       case "END":
         return {
           ...state,
           slideIndex: slides.length - 1,
-          step: 0,
+          beat: 0,
           direction: "forward",
         };
 
       case "RESET":
         return {
           ...state,
-          step: 0,
+          beat: 0,
           direction: "backward",
           resetCount: state.resetCount + 1,
         };
@@ -96,10 +106,10 @@ export function createPresentationReducer(slides: SlideDefinition[]) {
 }
 
 export function isAtStart(state: PresentationState) {
-  return state.slideIndex === 0 && state.step === 0;
+  return state.slideIndex === 0 && state.beat === 0;
 }
 
 export function isAtEnd(state: PresentationState, slides: SlideDefinition[]) {
   const lastIndex = slides.length - 1;
-  return state.slideIndex === lastIndex && state.step === slides[lastIndex].maxStep;
+  return state.slideIndex === lastIndex && state.beat === lastBeatIndex(slides[lastIndex]);
 }

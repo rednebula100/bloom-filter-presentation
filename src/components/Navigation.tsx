@@ -14,11 +14,11 @@ export default function Navigation({
   onNext,
 }: NavigationProps) {
   return (
-    <nav className={`slide-navigation ${hidden ? "is-dimmed" : ""}`} aria-label="슬라이드 이동">
+    <nav className={`slide-navigation ${hidden ? "is-dimmed" : ""}`} aria-label="발표 장면 이동">
       <button
         className="navigation-arrow navigation-arrow--previous"
         type="button"
-        aria-label="이전 단계 또는 슬라이드"
+        aria-label="이전 비트 또는 슬라이드"
         disabled={previousDisabled}
         onClick={onPrevious}
       >
@@ -27,7 +27,7 @@ export default function Navigation({
       <button
         className="navigation-arrow navigation-arrow--next"
         type="button"
-        aria-label="다음 단계 또는 슬라이드"
+        aria-label="다음 비트 또는 슬라이드"
         disabled={nextDisabled}
         onClick={onNext}
       >

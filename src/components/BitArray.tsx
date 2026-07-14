@@ -6,6 +6,8 @@ export type BitArrayProps = {
   checking?: number[];
   collision?: number[];
   showIndices?: boolean;
+  activationDelay?: number;
+  activationStagger?: number;
 };
 
 export default function BitArray({
@@ -14,6 +16,8 @@ export default function BitArray({
   checking = [],
   collision = [],
   showIndices = true,
+  activationDelay = 0,
+  activationStagger = 120,
 }: BitArrayProps) {
   return (
     <div className="bit-array" role="group" aria-label={`${bits.length}칸 비트 배열`}>
@@ -36,7 +40,7 @@ export default function BitArray({
               .join(" ")}
             style={
               {
-                "--bit-delay": `${Math.max(activationOrder, 0) * 120}ms`,
+                "--bit-delay": `${activationDelay + Math.max(activationOrder, 0) * activationStagger}ms`,
               } as CSSProperties
             }
             key={index}

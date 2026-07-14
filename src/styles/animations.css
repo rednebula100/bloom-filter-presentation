@@ -27,6 +27,56 @@
   100% { transform: scale(1); box-shadow: 0 0 10px rgba(56, 232, 255, 0.1); }
 }
 
+@keyframes bit-reveal {
+  0% {
+    color: var(--text-muted);
+    border-color: rgba(120, 160, 200, 0.24);
+    background: rgba(10, 16, 28, 0.82);
+    transform: scale(0.96);
+  }
+  55% { transform: scale(1.07); box-shadow: 0 0 24px rgba(56, 232, 255, 0.28); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bit-checking {
+  0% { box-shadow: 0 0 0 rgba(56, 232, 255, 0); }
+  55% { box-shadow: 0 0 26px rgba(56, 232, 255, 0.34); }
+  100% { box-shadow: 0 0 18px rgba(56, 232, 255, 0.16); }
+}
+
+@keyframes check-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes item-enter {
+  from { opacity: 0.4; filter: saturate(0.45); transform: translateY(8px); }
+  to { opacity: 1; filter: none; transform: translateY(0); }
+}
+
+@keyframes conclusion-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes result-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes position-check {
+  from {
+    color: var(--text-muted);
+    border-color: rgba(120, 160, 200, 0.32);
+    background: transparent;
+  }
+  to {
+    color: var(--cyan-soft);
+    border-color: rgba(56, 232, 255, 0.68);
+    background: rgba(56, 232, 255, 0.1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

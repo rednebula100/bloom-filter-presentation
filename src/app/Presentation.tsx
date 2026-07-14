@@ -7,6 +7,9 @@ import ProgressBar from "@/src/components/ProgressBar";
 import Slide01Title from "@/src/slides/Slide01Title";
 import Slide02Memory from "@/src/slides/Slide02Memory";
 import Slide03Structure from "@/src/slides/Slide03Structure";
+import Slide04Collisions from "@/src/slides/Slide04Collisions";
+import Slide05Lookup from "@/src/slides/Slide05Lookup";
+import Slide06FalsePositive from "@/src/slides/Slide06FalsePositive";
 import { commandForKeyboardEvent } from "./keyboard";
 import {
   createPresentationReducer,
@@ -55,6 +58,53 @@ const slides: SlideDefinition[] = [
       },
     ],
     component: Slide03Structure,
+  },
+  {
+    id: "collisions",
+    title: "데이터가 쌓이면 비트가 겹친다",
+    section: "비트의 누적과 충돌",
+    beats: [
+      { id: "apple-inserted", label: "apple이 남긴 비트" },
+      {
+        id: "shared-bits",
+        label: "데이터가 공유하는 비트",
+        autoSequence: "insert-items-and-mark-collisions",
+      },
+    ],
+    component: Slide04Collisions,
+  },
+  {
+    id: "lookup",
+    title: "블룸 필터는 어떻게 조회하는가?",
+    section: "블룸 필터의 조회",
+    beats: [
+      { id: "lookup-input", label: "apple 조회" },
+      {
+        id: "probably-present",
+        label: "존재할 수도 있음",
+        autoSequence: "check-apple-positions",
+      },
+    ],
+    component: Slide05Lookup,
+  },
+  {
+    id: "false-positive",
+    title: "존재하지 않는데 존재한다고 판단한다",
+    section: "거짓 양성",
+    beats: [
+      { id: "missing-input", label: "목록에 없는 melon" },
+      {
+        id: "matching-bits",
+        label: "모두 1인 해시 위치",
+        autoSequence: "check-melon-positions",
+      },
+      {
+        id: "false-positive-reveal",
+        label: "거짓 양성",
+        autoSequence: "compare-filter-with-actual-data",
+      },
+    ],
+    component: Slide06FalsePositive,
   },
 ];
 

@@ -1,98 +1,44 @@
-# vinext-starter
+# Bloom Filter Presentation
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+고등학교 수학 주제탐구 발표를 위한 16:9 인터랙티브 웹 프레젠테이션입니다. 블룸 필터가 데이터를 비트 위치로 기억하는 과정부터 거짓 양성 확률 공식, 최적 해시 함수 개수, 결정론적 시뮬레이션까지 10장의 슬라이드로 설명합니다.
 
-## Prerequisites
+## 공개 프레젠테이션
 
-- Node.js `>=22.13.0`
+[GitHub Pages에서 발표 보기](https://rednebula100.github.io/bloom-filter-presentation/)
 
-## Quick Start
+## 조작 방법
+
+- `→`, `Space`, `PageDown`: 다음 Beat 또는 슬라이드
+- `←`, `PageUp`: 이전 Beat 또는 슬라이드
+- `Home` / `End`: 처음 / 마지막 슬라이드
+- `F`: 전체화면 전환
+- `R`: 처음부터 다시 시작
+
+발표 대본의 클릭 위치만 수동 Beat로 사용하며, 한 Beat 안의 세부 연출은 자동으로 진행됩니다. 전체 내부 클릭은 9회입니다.
+
+## 로컬 실행
+
+Node.js 22 이상이 필요합니다.
 
 ```bash
-npm install
+npm ci
 npm run dev
+```
+
+개발 서버는 기존 vinext 환경으로 실행됩니다.
+
+## 검사와 정적 빌드
+
+```bash
+npm test
+npm run typecheck
+npm run lint
 npm run build
+npm run preview
 ```
 
-This starter does not use `wrangler.jsonc`.
+`npm run build`는 GitHub Pages용 정적 결과를 `dist/`에 생성합니다. 로컬 preview는 `/bloom-filter-presentation/` 경로에서 확인할 수 있습니다.
 
-## Included Shape
+## 배포
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+`main` 브랜치에 push하면 GitHub Actions가 테스트, TypeScript, ESLint, production build를 실행한 뒤 GitHub Pages에 배포합니다. Actions 화면에서 수동 실행도 가능합니다.
